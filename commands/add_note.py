@@ -32,14 +32,16 @@ def get_date(text):
 
 
 # Получаем данные для записи в таблицу
-def prepare_data(message):
+def prepare_data(message, start_function):
     # Получаем строки из сообщения
     data: list = message.text.split('\n')
     if len(data) < 3:
         bot.send_message(message.from_user.id, "Неправильный формат ответа (количество строк меньше, чем 3).")
+        bot.register_next_step_handler(message, start_function)
         return
     if len(data) > 5:
         bot.send_message(message.from_user.id, "Неправильный формат ответа (количество строк больше, чем 5).")
+        bot.register_next_step_handler(message, start_function)
         return
 
     # Текст задания пустой/содержит только пробелы
@@ -54,7 +56,7 @@ def prepare_data(message):
     except ValueError:
         bot.send_message(message.from_user.id, "Дата введена в неправильном формате. Убедитесь, "
                                                "что она была введена в формате ДД-ММ-ГГГГ.")
-        bot.register_next_step_handler(message, start)
+        bot.register_next_step_handler(message, start_function)
         return
 
     # Пусть элементов в массиве будет ровно 5
@@ -73,7 +75,7 @@ def start(message):
     if check_cancel(message): return
 
     # Данные для строки в таблице
-    data = prepare_data(message)
+    data = prepare_data(message, start)
     if not data:
         return
 

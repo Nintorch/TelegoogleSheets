@@ -7,6 +7,7 @@ from bot import bot, gc, check_cancel, get_event_data_from_message
 def start(message):
     if check_cancel(message): return
 
+    # Записываем название файла таблицы
     get_event_data_from_message(message)["name"] = message.text
     bot.send_message(message.from_user.id, "Назовите свой адрес электронной почты, "
                                            "чтобы бот мог выдать доступ к файлу.")

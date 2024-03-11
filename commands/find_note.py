@@ -98,7 +98,7 @@ def editnote(message):
     if check_cancel(message): return
 
     # Данные для строки в таблице
-    data = prepare_data(message)
+    data = prepare_data(message, start)
     if not data:
         return
 
